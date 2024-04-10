@@ -1,0 +1,23 @@
+ion-item {
+    ion-label {
+      font-weight: bold;
+    }
+    ion-checkbox {
+      --background-checked: var(--ion-color-primary);
+    }
+    ion-button {
+      --color: var(--ion-color-primary);
+    }
+  }
+  
+  .button-col {
+    display: flex;
+    justify-content: center;
+  }
+  
+  ion-button {
+    --border-radius: 15px; /* Adjust the border radius as per your design */
+    --padding-start: 20px; /* Adjust padding as needed */
+    --padding-end: 20px; /* Adjust padding as needed */
+  }
+  
