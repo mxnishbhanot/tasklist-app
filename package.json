@@ -21,14 +21,15 @@
     "@angular/platform-browser": "^17.0.2",
     "@angular/platform-browser-dynamic": "^17.0.2",
     "@angular/router": "^17.0.2",
-    "@capacitor/android": "^5.7.4",
+    "@angular/service-worker": "^17.0.2",
+    "@capacitor/android": "next",
     "@capacitor/app": "next",
-    "@capacitor/camera": "^5.0.9",
+    "@capacitor/camera": "next",
     "@capacitor/core": "next",
-    "@capacitor/filesystem": "^5.2.1",
+    "@capacitor/filesystem": "next",
     "@capacitor/haptics": "next",
     "@capacitor/keyboard": "next",
-    "@capacitor/preferences": "^5.0.7",
+    "@capacitor/preferences": "next",
     "@capacitor/status-bar": "next",
     "@ionic/angular": "^7.0.0",
     "ionicons": "^7.0.0",
@@ -64,5 +65,13 @@
     "karma-jasmine-html-reporter": "~2.1.0",
     "typescript": "~5.2.2"
   },
-  "description": "An Ionic project"
+  "description": "An Ionic project",
+  "browserslist": [
+    "Chrome >=79",
+    "ChromeAndroid >=79",
+    "Firefox >=70",
+    "Edge >=79",
+    "Safari >=14",
+    "iOS >=14"
+  ]
 }

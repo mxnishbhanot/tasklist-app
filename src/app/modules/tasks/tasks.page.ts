@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { TaskService } from 'src/app/services/task.service';
-import { AlertController, IonModal, ModalController } from '@ionic/angular';
+import { AlertController, AnimationController, IonModal, ModalController, PopoverController } from '@ionic/angular';
 import { OverlayEventDetail } from '@ionic/core/components';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { Capacitor } from '@capacitor/core';
@@ -18,6 +18,7 @@ export class TasksPage implements OnInit {
   mode: 'EDIT' | 'ADD' = 'ADD';
   selectedTaskList!: string;
   selectedPriority!: string;
+  showFilterMenu: boolean = false;
   tasks!: Task[];
   taskInfo: Task | any = {
     id: 0,
@@ -47,8 +48,9 @@ export class TasksPage implements OnInit {
   newTag: string = '';
   tags: string[] = [];
   private tasksSubscription!: Subscription
+  searchTerm: string = '';
 
-  constructor(private taskService: TaskService, private alertController: AlertController, private modalController: ModalController) { }
+  constructor(private taskService: TaskService, private alertController: AlertController, private modalController: ModalController,private animationController: AnimationController, public popoverController: PopoverController) { }
 
   ngOnInit() {
     this.tasksSubscription = this.taskService.getTasks().subscribe((tasks: Task[]) => {
@@ -249,6 +251,55 @@ export class TasksPage implements OnInit {
   closeModal(choice: string) {
     this.modalController.dismiss({ choice });
   }
+
+  async toggleTaskStatus(task: any) {
+    const alert = await this.alertController.create({
+      header: 'Confirm',
+      message: 'Are you sure you want to mark this task as completed?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        },
+        {
+          text: 'Confirm',
+          handler: () => {
+            // Perform task completion logic here
+            task.status = task.status === 'COMPLETED' ? 'PENDING' : 'COMPLETED';
+          }
+        }
+      ]
+    });
+  
+    await alert.present();
+  }
+
+  async animateItemRemoval(item: HTMLElement) {
+    const animation: Animation | any = this.animationController.create()
+      .addElement(item)
+      .duration(500)
+      .fromTo('opacity', '1', '0')
+      .play();
+  
+    await animation.finished;
+  }
+
+  applyFilters() {
+    // Implement filter logic based on selectedTaskList and selectedPriority
+    console.log('Selected Task List:', this.selectedTaskList);
+    console.log('Selected Priority:', this.selectedPriority);
+    this.toggleFilterMenu(); // Close filter menu after applying filters
+  }
+
+  toggleFilterMenu() {
+    this.showFilterMenu = !this.showFilterMenu;
+  }
+
+  searchTasks() {
+   console.log(this.searchTerm, "searched");
+  }
+  
+  
 
 }
 

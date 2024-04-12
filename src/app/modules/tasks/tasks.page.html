@@ -2,13 +2,17 @@
   <ion-toolbar>
     <ion-title>Tasks</ion-title>
     <ion-buttons slot="end">
-      <ion-button id="{{mode}}" fill="outline" expand="block" shape="round" (click)="addTask();">
-        Add
-        <ion-icon name="add" slot="end"></ion-icon>
-      </ion-button>
+      <ion-button id="{{mode}}" outline="fill" shape="round" (click)="addTask();">
+        <ion-icon name="add-circle-sharp"></ion-icon> </ion-button>
+      <ion-button (click)="toggleFilterMenu()">
+        <ion-icon name="filter-circle-sharp"></ion-icon> </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
+
+<ion-searchbar size="small" search-icon="search-circle" show-cancel-button="focus"
+  placeholder="Search by title or tags"></ion-searchbar>
+
 <ion-content>
 
   <!-- Add Task Modal -->
@@ -17,11 +21,11 @@
       <ion-header>
         <ion-toolbar>
           <ion-buttons slot="start">
-            <ion-button (click)="cancel()">Cancel</ion-button>
+            <ion-button (click)="cancel()"><ion-icon name="close-sharp"></ion-icon></ion-button>
           </ion-buttons>
           <ion-title class="ion-text-center">{{mode === 'ADD' ? 'Create' : 'Modify'}} Task</ion-title>
           <ion-buttons slot="end">
-            <ion-button (click)="confirm()" [strong]="true">Confirm</ion-button>
+            <ion-button (click)="confirm()" [strong]="true"><ion-icon name="checkmark-sharp"></ion-icon></ion-button>
           </ion-buttons>
         </ion-toolbar>
       </ion-header>
@@ -78,29 +82,29 @@
             </ion-col>
           </ion-row>
         </ion-list>
-        
-       <!-- Display attachments -->
-      <ion-grid>
-        <ion-row *ngFor="let attachment of taskInfo.attachments; let i = index">
-          <ion-col size="auto">
-            <img [src]="attachment.url" style="width: 100px;">
-          </ion-col>
-          <ion-col size="auto">
-            {{ attachment.name }}
-          </ion-col>
-          <ion-col size="auto">
-            <ion-icon name="close-outline" (click)="removeAttachment(i)" color="danger"></ion-icon> 
-          </ion-col>
-        </ion-row>
-      </ion-grid>
+
+        <!-- Display attachments -->
+        <ion-grid>
+          <ion-row *ngFor="let attachment of taskInfo.attachments; let i = index">
+            <ion-col size="auto">
+              <img [src]="attachment.url" style="width: 100px;">
+            </ion-col>
+            <ion-col size="auto">
+              {{ attachment.name }}
+            </ion-col>
+            <ion-col size="auto">
+              <ion-icon name="close-outline" (click)="removeAttachment(i)" color="danger"></ion-icon>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
       </ion-content>
     </ng-template>
   </ion-modal>
 
   <!-- Task List Display -->
   <ion-list>
-    <ion-item-sliding *ngFor="let task of tasks">
-      <ion-item lines="full" detail="false">
+    <ion-item-sliding *ngFor="let task of tasks" class="task-tile">
+      <ion-item lines="full" detail="false" (click)="$event.preventDefault();">
         <ion-label>
           <h2>{{ task.title }}</h2>
           <p>{{ task.description }}</p>
@@ -109,7 +113,8 @@
             color="{{task.priority === 'HIGH' ? 'danger' : task.priority === 'MEDIUM' ? 'warning' : 'success'}}">{{task.priority}}</ion-chip>
         </ion-label>
         <ion-checkbox aria-label="Label" slot="end" [checked]="task.status === 'COMPLETED'" color="success"
-          value="{{task.status}}"></ion-checkbox>
+          value="{{task.status}}" (ionChange)="toggleTaskStatus(task); $event.stopPropagation()"></ion-checkbox>
+
       </ion-item>
       <ion-item-options side="end">
         <ion-item-option color="light" (click)="editTask(task)" expand="block">
@@ -122,3 +127,31 @@
     </ion-item-sliding>
   </ion-list>
 </ion-content>
+
+
+<!-- Filter Menu -->
+<ion-list *ngIf="showFilterMenu" class="ion-text-center">
+  <ion-item>
+    <ion-label>Select Tasklist</ion-label>
+    <ion-select [(ngModel)]="selectedTaskList">
+      <!-- Populate with task list options -->
+      <ion-select-option value="taskList1">Task List 1</ion-select-option>
+      <ion-select-option value="taskList2">Task List 2</ion-select-option>
+      <!-- Add more options if needed -->
+    </ion-select>
+  </ion-item>
+  <ion-item>
+    <ion-label>Select Tags</ion-label>
+    <!-- Implement tag selection -->
+    <!-- Example: <ion-checkbox></ion-checkbox> -->
+  </ion-item>
+  <ion-item>
+    <ion-label>Select Priority</ion-label>
+    <ion-select [(ngModel)]="selectedPriority">
+      <ion-select-option value="LOW">Low</ion-select-option>
+      <ion-select-option value="MEDIUM">Medium</ion-select-option>
+      <ion-select-option value="HIGH">High</ion-select-option>
+    </ion-select>
+  </ion-item>
+  <ion-button shape="round"  (click)="applyFilters()">Apply</ion-button>
+</ion-list>

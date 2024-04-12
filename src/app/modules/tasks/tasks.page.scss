@@ -1,23 +1,35 @@
 ion-item {
-    ion-label {
-      font-weight: bold;
-    }
-    ion-checkbox {
-      --background-checked: var(--ion-color-primary);
-    }
-    ion-button {
-      --color: var(--ion-color-primary);
-    }
+  ion-label {
+    font-weight: bold;
   }
-  
-  .button-col {
-    display: flex;
-    justify-content: center;
+
+  ion-checkbox {
+    --background-checked: var(--ion-color-primary);
   }
-  
+
   ion-button {
-    --border-radius: 15px; /* Adjust the border radius as per your design */
-    --padding-start: 20px; /* Adjust padding as needed */
-    --padding-end: 20px; /* Adjust padding as needed */
+    --color: var(--ion-color-primary);
   }
-  
+}
+
+.button-col {
+  display: flex;
+  justify-content: center;
+}
+
+ion-button {
+  --border-radius: 15px;
+  /* Adjust the border radius as per your design */
+  --padding-start: 20px;
+  /* Adjust padding as needed */
+  --padding-end: 20px;
+  /* Adjust padding as needed */
+}
+
+.task-tile {
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  /* Add a shadow effect */
+  margin-bottom: 12px;
+  /* Add some margin between each task */
+}
