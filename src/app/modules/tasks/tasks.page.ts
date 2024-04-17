@@ -17,8 +17,6 @@ export class TasksPage implements OnInit {
   @ViewChild(IonModal) modal!: IonModal;
 
   mode: 'EDIT' | 'ADD' = 'ADD';
-  selectedTaskList!: string;
-  selectedPriority!: string;
   showFilterMenu: boolean = false;
   tasks!: Task[];
   taskInfo: Task | any = {
