@@ -6,6 +6,7 @@ import { OverlayEventDetail } from '@ionic/core/components';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { Capacitor } from '@capacitor/core';
 import { Filesystem, Directory } from '@capacitor/filesystem';
+import { FilterModalComponent } from 'src/app/shared/components/filter-modal/filter-modal.component';
 
 @Component({
   selector: 'app-tasks',
@@ -284,15 +285,14 @@ export class TasksPage implements OnInit {
     await animation.finished;
   }
 
-  applyFilters() {
-    // Implement filter logic based on selectedTaskList and selectedPriority
-    console.log('Selected Task List:', this.selectedTaskList);
-    console.log('Selected Priority:', this.selectedPriority);
-    this.toggleFilterMenu(); // Close filter menu after applying filters
-  }
-
-  toggleFilterMenu() {
-    this.showFilterMenu = !this.showFilterMenu;
+  async openTaskModal() {
+    const modal = await this.modalController.create({
+      component: FilterModalComponent,
+      componentProps: {
+        task: {} // Pass task data here if needed
+      }
+    });
+    return await modal.present();
   }
 
   searchTasks() {

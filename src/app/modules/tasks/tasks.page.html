@@ -4,14 +4,20 @@
     <ion-buttons slot="end">
       <ion-button id="{{mode}}" outline="fill" shape="round" (click)="addTask();">
         <ion-icon name="add-circle-sharp"></ion-icon> </ion-button>
-      <ion-button (click)="toggleFilterMenu()">
-        <ion-icon name="filter-circle-sharp"></ion-icon> </ion-button>
     </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-searchbar [debounce]="1000" class="custom-placeholder" size="small" search-icon="search-circle" show-cancel-button="focus"
+      placeholder="Search by title or tags"></ion-searchbar>
+      <ion-button (click)="openTaskModal()" fill="clear" shape="round">
+      <ion-icon name="filter-circle-sharp"></ion-icon>
+    </ion-button>
   </ion-toolbar>
 </ion-header>
 
-<ion-searchbar size="small" search-icon="search-circle" show-cancel-button="focus"
-  placeholder="Search by title or tags"></ion-searchbar>
+<!-- <ion-button (click)="openTaskModal()" fill="clear" shape="round">
+      <ion-icon name="filter-circle-sharp"></ion-icon>
+    </ion-button> -->
 
 <ion-content>
 
@@ -130,7 +136,7 @@
 
 
 <!-- Filter Menu -->
-<ion-list *ngIf="showFilterMenu" class="ion-text-center">
+<ion-list *ngIf="showFilterMenu" class="ion-text-center filter-modal" [class.show]="showFilterMenu">
   <ion-item>
     <ion-label>Select Tasklist</ion-label>
     <ion-select [(ngModel)]="selectedTaskList">
@@ -153,5 +159,5 @@
       <ion-select-option value="HIGH">High</ion-select-option>
     </ion-select>
   </ion-item>
-  <ion-button shape="round"  (click)="applyFilters()">Apply</ion-button>
+  <ion-button shape="round">Apply</ion-button>
 </ion-list>
